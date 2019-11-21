@@ -1,2 +1,0 @@
-# FrontEndCompare
-Created with CodeSandbox
