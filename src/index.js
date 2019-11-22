@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
+import Table from "./Table";
 import "./styles.css";
 
 const BarChart = React.lazy(() => import("./BarChart"));
@@ -11,7 +12,10 @@ function App() {
       <h2>Listed on GitHub Jobs</h2>
       <h3> November 18th, 2019</h3>
       <React.Suspense fallback={<div>Waiting...</div>}>
-        <BarChart />
+        <div className="container">
+          <BarChart />
+          <Table />
+        </div>
       </React.Suspense>
     </div>
   );

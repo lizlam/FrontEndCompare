@@ -3,10 +3,8 @@ import { VictoryChart, VictoryBar } from "victory";
 import reactSampleData from "./data-react";
 import vueSampleData from "./data-vue";
 import angularSampleData from "./data-angular";
-import Table from "./Table";
 
 function BarChart() {
-  const [selected, setSelected] = useState("vue");
   return (
     <>
       <VictoryChart domainPadding={25}>
@@ -22,7 +20,6 @@ function BarChart() {
           ]}
         />
       </VictoryChart>
-      <Table value={selected} />
     </>
   );
 }

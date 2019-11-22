@@ -3,10 +3,15 @@ import ReactDataGrid from "react-data-grid";
 import reactSampleData from "./data-react";
 import vueSampleData from "./data-vue";
 import angularSampleData from "./data-angular";
+import Button from "./Button";
 
 const LocationFormatter = ({ value }) => {
   let remote = value === "Remote";
   return <>{remote ? <b>{value}</b> : <span>{value}</span>}</>;
+};
+
+const defaultColumnProperties = {
+  width: 320
 };
 
 const columns = [
@@ -14,7 +19,7 @@ const columns = [
   { key: "title", name: "Title" },
   { key: "company", name: "Company" },
   { key: "location", name: "Location", formatter: LocationFormatter }
-];
+].map(c => ({ ...c, ...defaultColumnProperties }));
 
 const getRows = obj => {
   let rows = obj.map(v => ({
@@ -28,6 +33,7 @@ const getRows = obj => {
 
 const initialRows = getRows(reactSampleData);
 const vueRows = getRows(vueSampleData);
+const angularRows = getRows(angularSampleData);
 
 const sortRows = (initialRows, sortColumn, sortDirection) => rows => {
   const comparer = (a, b) => {
@@ -42,21 +48,33 @@ const sortRows = (initialRows, sortColumn, sortDirection) => rows => {
 
 const Table = props => {
   const [rows, setRows] = useState(initialRows);
-  const { value } = props;
-  if (value === "react") {
-    //let data = getRows(reactSampleData);
-    //setRows(data);
-  } else if (value === "vue") {
-    console.log(vueRows);
-    //setRows(vueRows);
-  } else {
-    setRows(getRows(angularSampleData));
-  }
+  const [count, setCount] = useState(initialRows.length);
+
+  const vueClickHandler = e => {
+    setRows(vueRows);
+    setCount(vueRows.length);
+  };
+
+  const angularClickHandler = e => {
+    setRows(angularRows);
+    setCount(angularRows.length);
+  };
+
+  const reactClickHandler = e => {
+    setRows(initialRows);
+    setCount(initialRows.length);
+  };
 
   return (
     <>
       <h1>
-        Job listings with <b>'{value}'</b> in the description.
+        <mark>{count}</mark> Job listings with{" "}
+        <Button onClick={reactClickHandler}>
+          <mark>react</mark>
+        </Button>
+        <Button onClick={vueClickHandler}>vue</Button>
+        <Button onClick={angularClickHandler}>angular</Button> in the
+        description.
       </h1>
       <ReactDataGrid
         columns={columns}
