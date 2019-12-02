@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import ReactDataGrid from "react-data-grid";
+import styled from "styled-components";
 import reactSampleData from "./data-react";
 import vueSampleData from "./data-vue";
 import angularSampleData from "./data-angular";
-import Button from "./Button";
 
 const LocationFormatter = ({ value }) => {
   let remote = value === "Remote";
@@ -20,6 +20,8 @@ const columns = [
   { key: "company", name: "Company" },
   { key: "location", name: "Location", formatter: LocationFormatter }
 ].map(c => ({ ...c, ...defaultColumnProperties }));
+
+console.log(columns);
 
 const getRows = obj => {
   let rows = obj.map(v => ({
@@ -49,30 +51,53 @@ const sortRows = (initialRows, sortColumn, sortDirection) => rows => {
 const Table = props => {
   const [rows, setRows] = useState(initialRows);
   const [count, setCount] = useState(initialRows.length);
+  const [selected, setSelected] = useState("react");
+
+  console.log(selected);
+  const Button = styled.button`
+    font-size: 2rem;
+    border-radius: 25%;
+    margin: 0.3rem;
+    background-color: ${props.selected ? "yellow" : ""};
+    :hover {
+      background-color: yellow;
+    }
+  `;
 
   const vueClickHandler = e => {
     setRows(vueRows);
     setCount(vueRows.length);
+    setSelected("vue");
   };
 
   const angularClickHandler = e => {
     setRows(angularRows);
     setCount(angularRows.length);
+    setSelected("angular");
   };
 
   const reactClickHandler = e => {
     setRows(initialRows);
     setCount(initialRows.length);
+    setSelected("react");
   };
 
   return (
     <>
       <h1>
-        <mark>{count}</mark> Job listings with{" "}
-        <Button onClick={reactClickHandler}>
-          <mark>react</mark>
+        <mark>{count}</mark> Job listings with '{selected}'
+        <Button
+          onClick={reactClickHandler}
+          selected={() => (selected === "react" ? true : false)}
+        >
+          react
         </Button>
-        <Button onClick={vueClickHandler}>vue</Button>
+        <Button
+          onClick={vueClickHandler}
+          selected={selected === "vue" ? true : false}
+        >
+          vue
+        </Button>
         <Button onClick={angularClickHandler}>angular</Button> in the
         description.
       </h1>
