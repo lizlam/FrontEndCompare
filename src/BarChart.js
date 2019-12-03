@@ -1,10 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { VictoryChart, VictoryBar } from "victory";
 import reactSampleData from "./data-react";
 import vueSampleData from "./data-vue";
 import angularSampleData from "./data-angular";
 
 function BarChart() {
+  useEffect(() => {
+    let timerId = setTimeout(() => console.log("Hello!"), 5000);
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, []);
+
   return (
     <>
       <VictoryChart domainPadding={25}>

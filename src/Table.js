@@ -11,6 +11,8 @@ const LocationFormatter = ({ value }) => {
 };
 
 const defaultColumnProperties = {
+  resizable: true,
+  sortable: true,
   width: 320
 };
 
@@ -20,8 +22,6 @@ const columns = [
   { key: "company", name: "Company" },
   { key: "location", name: "Location", formatter: LocationFormatter }
 ].map(c => ({ ...c, ...defaultColumnProperties }));
-
-console.log(columns);
 
 const getRows = obj => {
   let rows = obj.map(v => ({
@@ -53,7 +53,6 @@ const Table = props => {
   const [count, setCount] = useState(initialRows.length);
   const [selected, setSelected] = useState("react");
 
-  console.log(selected);
   const Button = styled.button`
     font-size: 2rem;
     border-radius: 25%;
@@ -62,6 +61,9 @@ const Table = props => {
     background-color: ${props => (props.children === selected ? "yellow" : "")};
     :hover {
       background-color: yellow;
+    }
+    :focus {
+      outline: none;
     }
   `;
 
@@ -83,6 +85,11 @@ const Table = props => {
     setSelected("react");
   };
 
+  const EmptyRowsView = () => {
+    const message = "No data to show";
+    return <h2>{message}</h2>;
+  };
+
   return (
     <>
       <h1>
@@ -99,6 +106,10 @@ const Table = props => {
         onGridSort={(sortColumn, sortDirection) =>
           setRows(sortRows(initialRows, sortColumn, sortDirection))
         }
+        onColumnResize={(idx, width) =>
+          console.log(`Column ${idx} has been resized to ${width}`)
+        }
+        emptyRowsView={EmptyRowsView}
       />
     </>
   );

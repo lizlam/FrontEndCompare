@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Table from "./Table";
+import "bootstrap/dist/css/bootstrap.css";
 import "./styles.css";
 
 const BarChart = React.lazy(() => import("./BarChart"));
