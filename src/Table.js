@@ -58,7 +58,8 @@ const Table = props => {
     font-size: 2rem;
     border-radius: 25%;
     margin: 0.3rem;
-    background-color: ${props.selected ? "yellow" : ""};
+    font-weight: ${props => (props.children === selected ? "bold" : "")};
+    background-color: ${props => (props.children === selected ? "yellow" : "")};
     :hover {
       background-color: yellow;
     }
@@ -85,19 +86,9 @@ const Table = props => {
   return (
     <>
       <h1>
-        <mark>{count}</mark> Job listings with '{selected}'
-        <Button
-          onClick={reactClickHandler}
-          selected={() => (selected === "react" ? true : false)}
-        >
-          react
-        </Button>
-        <Button
-          onClick={vueClickHandler}
-          selected={selected === "vue" ? true : false}
-        >
-          vue
-        </Button>
+        <mark>{count}</mark> Job listings with
+        <Button onClick={reactClickHandler}>react</Button>
+        <Button onClick={vueClickHandler}>vue</Button>
         <Button onClick={angularClickHandler}>angular</Button> in the
         description.
       </h1>
